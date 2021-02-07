@@ -1,0 +1,308 @@
+setScreen("home");
+  setProperty("mHButton","hidden",false);
+setProperty("goalsbutton", "hidden", true);
+setProperty("journalbutton", "hidden", true);
+setProperty("part2", "hidden", true);
+var movielog;
+var movie;
+var movielist = [];
+var goalsLog;
+var goals;
+var goalsList=[];
+var Quoteoutput;
+var QuoteList = ["The Best Way To Get Started Is To Quit Talking And Begin Doing","The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees Opportunity In Every Difficulty.","Don’t Let Yesterday Take Up Too Much Of Today.","You Learn More From Failure Than From Success. Don’t Let It Stop You. Failure Builds Character.","It’s Not Whether You Get Knocked Down, It’s Whether You Get Up."];
+var fooddiary="";
+var meallist = [];
+var foodlist= [];
+var meal="";
+var food="";
+var goal = 0;
+var cups=0;
+var armsxlink;
+var armsExercises = ["https://www.youtube.com/watch?v=UyTR2EjTAXU","https://www.youtube.com/watch?v=Y346900i9qE","https://www.youtube.com/watch?v=RTF4ADblouI"];
+var legsxlink;
+var legsExercises = ["https://www.youtube.com/watch?v=Fu_oExrPX68","https://www.youtube.com/watch?v=HVyt7ywsOQ8",""];
+var absxlink;
+var absExercises = ["https://www.youtube.com/watch?v=uUKAYkQZXko","https://www.youtube.com/watch?v=JJVyDrSHnW8","https://www.youtube.com/watch?v=AnYl6Nk9GOA","https://www.youtube.com/watch?v=9p7-YC91Q74"];
+var fullBodyxlink;
+var fullBodyExercises = ["https://www.youtube.com/watch?v=UBMk30rjy0o","https://www.youtube.com/watch?v=oAPCPjnU1wA","https://www.youtube.com/watch?v=1skBf6h2ksI"];
+var yogaxlink;
+var yogaExercises = ["https://www.youtube.com/watch?v=xVifQow87b4", "https://www.youtube.com/watch?v=No2u_Dq_9ho", "https://www.youtube.com/watch?v=m756Gz8de4M","https://www.youtube.com/watch?v=CyWbOoKJIKk"];
+onEvent("pHButton","click",function(){
+ setScreen("PH") ;
+});
+onEvent("homeButton","click",function(){
+  setScreen("home");
+});
+onEvent("homeExercise","click",function(){
+  setScreen("home");
+});
+onEvent("exerciseButton","click",function(){
+  setScreen("Exercise");
+});
+onEvent("xbutton6","click",function(){
+  yogaxlink= yogaExercises[randomNumber(0,yogaExercises.length-1)];
+  open(yogaxlink);
+});
+onEvent("xbutton4","click",function(){
+  fullBodyxlink= fullBodyExercises[randomNumber(0,fullBodyExercises.length-1)];
+  open(fullBodyxlink);
+});
+onEvent("xbutton3","click",function(){
+  absxlink= absExercises[randomNumber(0,absExercises.length-1)];
+  open(absxlink);
+});
+onEvent("xbutton2","click",function(){
+  legsxlink= legsExercises[randomNumber(0,legsExercises.length-1)];
+  open(legsxlink);
+});
+onEvent("xbutton1","click",function(){
+  armsxlink= armsExercises[randomNumber(0,armsExercises.length-1)];
+  open(armsxlink);
+});
+onEvent("mealButton","click",function(){
+  setScreen("EH");
+  setProperty("badCharles", "hidden", true);
+  setProperty("Charles", "hidden", false);
+  setProperty("goodCharels", "hidden", true);
+});
+onEvent("trackW","click",function(){
+  setScreen("TrackWater");
+playSpeech("Track water by putting cups you have drank so far, keep adding to reach goal of 10 cups.", "male", "English");
+});
+onEvent("waterdrop","change",function(){
+  cups = cups +getNumber("waterdrop");
+  setProperty("waterdrop","text","cups of water");
+  setProperty("cupsOutput","text","You have drinken " + cups + " cups today");
+  if(cups>=1){
+    setProperty("c1","background-color","blue");
+  }
+  if(cups>=2){
+    setProperty("c2","background-color","blue");
+  }
+  if(cups>=3){
+    setProperty("c3","background-color","blue");
+  }
+  if(cups>=4){
+    setProperty("c4","background-color","blue");
+  }
+  if(cups>=5){
+    setProperty("c5","background-color","blue");
+  }
+  if(cups>=6){
+    setProperty("c6","background-color","blue");
+  }
+  if(cups>=7){
+    setProperty("c7","background-color","blue");
+  }
+  if(cups>=8){
+    setProperty("c8","background-color","blue");
+  }
+  if(cups>=9){
+    setProperty("c9","background-color","blue");
+  }
+  if(cups>=10){
+    setProperty("c10","background-color","blue");
+    playSound("sound://category_human/character_jimmy_awesome_1.mp3", false);
+    setProperty("cupsOutput","text","You have drinken " + cups + " cups today" +"\n Congrats you have reached you goal of water today!");
+  }
+});
+onEvent("backbutton", "click", function( ) {
+  setScreen("EH");
+});
+onEvent("bbe", "click", function( ) {
+  setScreen("PH");
+});
+onEvent("bbeh", "click", function( ) {
+  setScreen("PH");
+});
+onEvent("bbf", "click", function( ) {
+  setScreen("EH");
+});
+onEvent("trackF", "click", function( ) {
+  setScreen("trackFood");
+});
+onEvent("bbfd", "click", function( ) {
+  setScreen("EH");
+});
+onEvent("fdbutton", "click", function( ) {
+  setScreen("Fooddiary");
+});
+// what meal did they eat
+onEvent("mealdrop","change",function(){
+  meal=getText("mealdrop");
+ 
+  appendItem(meallist,meal);
+});
+onEvent("food","change",function(){
+  food=getText("food");
+  appendItem(foodlist,food);
+  
+});
+onEvent("yes","click",function(){
+ playSound("sound://category_alerts/playful_quirky_positive_game_cue_1.mp3", false);
+ setScreen("EH");
+  goal = goal+1;
+  foodlistadd();
+ fooddiary = getText("Food");
+  setProperty("food","text","");
+   setProperty("mealdrop","text","Meal");
+   if(food=="cheese"){
+    playSound("sound://category_human/character_jimmy_i_like_cheese_1.mp3", false);
+    stopSound("sound://category_alerts/playful_quirky_negative_game_cue_2.mp3");
+    stopSound("sound://category_alerts/playful_quirky_positive_game_cue_1.mp3");
+   }
+});
+function foodlistadd(){
+  setProperty("Food","text","");
+  for(var i =0;i<foodlist.length;i++){
+    meal = meallist[i];
+    food = foodlist[i];
+    if(food=="cheese"){
+    playSound("sound://category_human/character_jimmy_i_like_cheese_1.mp3", false);
+    stopSound("sound://category_alerts/playful_quirky_negative_game_cue_2.mp3");
+    stopSound("sound://category_alerts/playful_quirky_positive_game_cue_1.mp3");
+  }
+  setProperty("Food", "text", fooddiary + "\n For "+ meal +" you ate "+ food );
+    
+  }
+  if (goal==0) {
+  setProperty("badCharles", "hidden", true);
+  setProperty("Charles", "hidden", false);
+  setProperty("goodCharels", "hidden", true);
+  }
+  if(goal>=1){
+   setProperty("badCharles", "hidden", true);
+  setProperty("Charles", "hidden", true);
+  setProperty("goodCharels", "hidden", false);
+  }
+  if(goal<=-1){
+   setProperty("badCharles", "hidden", false);
+  setProperty("Charles", "hidden", true);
+  setProperty("goodCharels", "hidden", true);
+  }
+}
+onEvent("no","click",function(){
+  playSound("sound://category_alerts/playful_quirky_negative_game_cue_2.mp3", false);
+  setScreen("EH");
+  goal = goal-1;
+  foodlistadd();
+ fooddiary = getText("Food");
+ setProperty("food","text","");
+  setProperty("mealdrop","text","Meal");
+  if(food=="cheese"){
+    playSound("sound://category_human/character_jimmy_i_like_cheese_1.mp3", false);
+    stopSound("sound://category_alerts/playful_quirky_negative_game_cue_2.mp3");
+    stopSound("sound://category_alerts/playful_quirky_positive_game_cue_1.mp3");
+  }
+});
+onEvent("mHButton","click",function(){
+ setScreen("MH"); 
+ setProperty("part2","hidden",false);
+  setProperty("mHButton","hidden",true);
+ playSpeech("Hello I am Cheryl, please click next.", "female", "English");
+});
+onEvent("nextMH","click",function(){
+ setScreen("emotions"); 
+});
+onEvent("happyclip","click",function(){
+  setScreen("happy");
+  playSound("sound://category_background/jazzy_beats.mp3");
+});
+onEvent("happyhome","click",function(){
+  setScreen("home");
+  stopSound("sound://category_background/jazzy_beats.mp3");
+});
+onEvent("sadclip","click",function(){
+  setScreen("sad");
+  playSpeech("I am sorry to hear that you are sad, but to cheer you up click the button to listen to a cheer up playlist.","female","English");
+});
+onEvent("musicsad","click",function(){
+ open("https://www.youtube.com/playlist?list=PLoYRL227aB2d88qO1XBA2Mb402ziAh3fn");
+   
+});
+onEvent("homesad","click",function(){
+  setScreen("home");
+});
+onEvent("homeButtonMH","click",function(){
+  setScreen("home");
+});
+onEvent("unmotivatedclip","click",function(){
+  setScreen("unmotivated");
+  Quoteoutput=randomNumber(0,QuoteList.length);
+ setProperty("Quote","text",QuoteList[Quoteoutput]);
+ setProperty("Quote","font-size",15);
+setProperty("goalsbutton", "hidden", false);
+});
+onEvent("Goalsinput","change",function(){
+  goals= getText("Goalsinput");
+  appendItem(goalsList,goals);
+  goalsLog = getText("GoalsOutput");
+  quotes();
+});
+
+function quotes() {
+  setProperty("Goalsinput","text","");
+  for(var i=0; i<goalsList.length; i++){
+    goals = goalsList[i];
+    setProperty("GoalsOutput","text",goalsLog +"\n"+ (i+1) +" "+ goals );
+  }
+}
+onEvent("angrypic","click",function(){
+  setScreen("angry");
+  setProperty("journalbutton","hidden",false);
+});
+onEvent("tiredpic","click",function(){
+  setScreen("tired");
+});
+onEvent("stressedpic","click",function(){
+  setScreen("stressed");
+});
+onEvent("umhome","click",function(){
+  setScreen("home");
+});
+onEvent("Homet","click",function(){
+  setScreen("home");
+});
+onEvent("angryh","click",function(){
+  setScreen("home");
+});
+onEvent("homes","click",function(){
+  setScreen("home");
+});
+onEvent("medbutton","click",function(){
+open("https://www.youtube.com/watch?v=O-6f5wQXSu8&list=PLQiGxGHwiuD1kdxsWKFuhE0rITIXe-7yC");
+});
+onEvent("movieinput","change",function(){
+  movie= getText("movieinput");
+  appendItem(movielist,movie);
+  movielog = getText("movieoutput");
+  movies ();
+});
+function movies() {
+  setProperty("movieinput","text","");
+  for(var i=0; i<movielist.length; i++){
+    movie = movielist[i];
+    setProperty("movieoutput","text",movielog +"\n"+ movie );
+  }
+}
+onEvent("waterbutton","click",function(){
+  setScreen("TrackWater");
+  if (goal==0) {
+  setProperty("badCharles", "hidden", true);
+  setProperty("Charles", "hidden", false);
+  setProperty("goodCharels", "hidden", true);
+  }
+});
+onEvent("journalbutton","click",function(){
+  setScreen("angry");
+});
+onEvent("goalsbutton","click", function() {
+   setScreen("unmotivated");
+  Quoteoutput=randomNumber(0,QuoteList.length);
+ setProperty("Quote","text",QuoteList[Quoteoutput]);
+ setProperty("Quote","font-size",15);
+});
+onEvent("part2","click",function(){
+ setScreen("MH");  
+});
